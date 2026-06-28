@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders without crashing', () => {
+test('renders the Crewbridge heading', () => {
   render(<App />);
-  expect(screen.getByRole('button')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Crewbridge' })).toBeInTheDocument();
 });
