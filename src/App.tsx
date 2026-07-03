@@ -1,23 +1,29 @@
-import { useEffect, useState } from 'react';
-import api from './api';
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './AuthContext';
+import Login from './Login';
+import Register from './Register';
+import Dashboard from './Dashboard';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
-  const [status, setStatus] = useState<string>('checking...');
-
-  useEffect(() => {
-    api
-      .get('/health/')
-      .then((res) => setStatus(JSON.stringify(res.data)))
-      .catch((err) => setStatus('Error: ' + err.message));
-  }, []);
-
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>Crewbridge</h1>
-      <p>Backend health check:</p>
-      <pre>{status}</pre>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
