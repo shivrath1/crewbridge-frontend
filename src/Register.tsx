@@ -2,7 +2,11 @@ import { useState, type FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
-const ROLES = ['WORKER', 'EMPLOYER', 'TRAINER'];
+const ROLES = [
+  { value: 'WORKER', label: 'Job Seeker' },
+  { value: 'EMPLOYER', label: 'Employer' },
+  { value: 'TRAINER', label: 'Trainer' },
+];
 
 export default function Register() {
   const { register } = useAuth();
@@ -46,17 +50,18 @@ export default function Register() {
           {ROLES.map((r) => (
             <button
               type="button"
-              key={r}
-              onClick={() => setRole(r)}
+              key={r.value}
+              onClick={() => setRole(r.value)}
               style={{
                 flex: 1,
                 padding: 8,
-                border: role === r ? '2px solid #378ADD' : '1px solid #ccc',
-                background: role === r ? '#E6F1FB' : '#fff',
+                border:
+                  role === r.value ? '2px solid #378ADD' : '1px solid #ccc',
+                background: role === r.value ? '#E6F1FB' : '#fff',
                 cursor: 'pointer',
               }}
             >
-              {r.charAt(0) + r.slice(1).toLowerCase()}
+              {r.label}
             </button>
           ))}
         </div>

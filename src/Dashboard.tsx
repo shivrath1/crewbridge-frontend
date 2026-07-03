@@ -1,23 +1,23 @@
 import { useAuth } from './AuthContext';
 
+const LANDING_BY_ROLE: Record<string, string> = {
+  WORKER: 'Find and apply for jobs, and manage your profile and documents.',
+  EMPLOYER: 'Post jobs, review applicants, and manage your venue.',
+  TRAINER: 'Manage your profile and training materials.',
+  ADMIN: 'Manage accounts and review AI-flagged items.',
+};
+
 export default function Dashboard() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const message = user ? LANDING_BY_ROLE[user.role] : '';
 
   return (
-    <div
-      style={{ maxWidth: 480, margin: '4rem auto', fontFamily: 'sans-serif' }}
-    >
-      <h1>Crewbridge</h1>
-      <p>
-        Welcome, {user?.first_name || user?.email}. You are logged in as{' '}
-        <strong>{user?.role}</strong>.
+    <div>
+      <h2>Welcome, {user?.first_name || user?.email}</h2>
+      <p style={{ color: '#666' }}>{message}</p>
+      <p style={{ fontSize: 13, color: '#999' }}>
+        Use the navigation above to get started.
       </p>
-      <p style={{ color: '#666' }}>
-        This is a placeholder dashboard. Role-specific screens come next.
-      </p>
-      <button onClick={logout} style={{ padding: 10 }}>
-        Log out
-      </button>
     </div>
   );
 }
