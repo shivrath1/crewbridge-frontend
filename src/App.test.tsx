@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders the Crewbridge heading', () => {
+test('renders the login screen when not authenticated', () => {
   render(<App />);
-  expect(screen.getByRole('heading', { name: 'Crewbridge' })).toBeInTheDocument();
+  // Not logged in → redirected to /login, which shows the "Log in" button.
+  expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument();
 });
