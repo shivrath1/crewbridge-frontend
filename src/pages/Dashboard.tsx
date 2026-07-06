@@ -1,4 +1,4 @@
-import { useAuth } from './AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 const LANDING_BY_ROLE: Record<string, string> = {
   WORKER: 'Find and apply for jobs, and manage your profile and documents.',

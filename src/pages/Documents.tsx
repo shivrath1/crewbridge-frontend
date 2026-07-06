@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { type DocumentItem, deleteDocument, getDocuments } from './document';
-import styles from '../src/Documents.module.css';
+import { deleteDocument, getDocuments } from '../services/documents';
+import type { DocumentItem } from '../types/document';
+import styles from '../styles/Documents.module.css';
 
 export default function Documents() {
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
