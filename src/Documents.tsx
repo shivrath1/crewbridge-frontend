@@ -4,17 +4,15 @@ import styles from '../src/Documents.module.css';
 
 export default function Documents() {
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
-
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState('');
 
   async function loadDocuments() {
     try {
       setLoading(true);
+      setError('');
 
       const data = await getDocuments();
-
       setDocuments(data);
     } catch {
       setError("Couldn't load documents.");
@@ -24,13 +22,18 @@ export default function Documents() {
   }
 
   async function removeDocument(id: number) {
-    await deleteDocument(id);
-
-    loadDocuments();
+    try {
+      await deleteDocument(id);
+      await loadDocuments();
+    } catch {
+      setError("Couldn't delete document.");
+    }
   }
 
   useEffect(() => {
-    loadDocuments();
+    void (async () => {
+      await loadDocuments();
+    })();
   }, []);
 
   return (
@@ -52,10 +55,17 @@ export default function Documents() {
   );
 }
 
-function DocumentCard({ document, onDelete }: { document: DocumentItem; onDelete: (id: number) => void }) {
+function DocumentCard({
+  document,
+  onDelete,
+}: {
+  document: DocumentItem;
+  onDelete: (id: number) => void;
+}) {
   return (
-    <div>
-      <div>{(document as any).title ?? `Document ${document.id}`}</div>
+    <div className={styles.card}>
+      <div>{`Document ${document.id}`}</div>
+
       <button type="button" onClick={() => onDelete(document.id)}>
         Delete
       </button>
@@ -64,9 +74,8 @@ function DocumentCard({ document, onDelete }: { document: DocumentItem; onDelete
 }
 
 function DocumentUpload({ onUploaded }: { onUploaded: () => void }) {
-  // Minimal placeholder upload component to satisfy usage in Documents
   return (
-    <div>
+    <div style={{ marginBottom: '1rem' }}>
       <button type="button" onClick={onUploaded}>
         Upload Document
       </button>
