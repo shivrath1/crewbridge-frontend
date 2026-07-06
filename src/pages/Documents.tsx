@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 
+import DocumentCard from '../components/DocumentCard';
+import DocumentUpload from '../components/DocumentUpload';
+
 import {
   deleteDocument as removeDocumentService,
   getDocuments,
-  type DocumentItem,
-} from '../services/document';
+} from '../services/documents';
+
+import type { DocumentItem } from '../types/document';
 
 import styles from '../styles/Documents.module.css';
 
@@ -20,10 +24,18 @@ export default function Documents() {
       setError('');
     } catch {
       setError("Couldn't load documents.");
+    } finally {
+      setLoading(false);
     }
   }
 
   async function removeDocument(id: number) {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this document?'
+    );
+
+    if (!confirmed) return;
+
     try {
       await removeDocumentService(id);
       await refreshDocuments();
@@ -33,39 +45,27 @@ export default function Documents() {
   }
 
   useEffect(() => {
-    let ignore = false;
-
-    async function fetchDocuments() {
+    async function loadDocuments() {
       try {
         const data = await getDocuments();
-
-        if (!ignore) {
-          setDocuments(data);
-          setError('');
-        }
+        setDocuments(data);
+        setError('');
       } catch {
-        if (!ignore) {
-          setError("Couldn't load documents.");
-        }
+        setError("Couldn't load documents.");
       } finally {
-        if (!ignore) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     }
 
-    void fetchDocuments();
-
-    return () => {
-      ignore = true;
-    };
+    void loadDocuments();
   }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>📄 My Documents</h1>
-        <p>Manage all of your uploaded documents.</p>
+
+        <p>Upload, manage and keep track of your employment documents.</p>
       </div>
 
       <div className={styles.uploadSection}>
@@ -86,58 +86,23 @@ export default function Documents() {
 
       {!loading && !error && documents.length === 0 && (
         <div className={styles.empty}>
-          <h3>No documents uploaded yet</h3>
-          <p>Upload your first document to begin.</p>
+          <h3>No documents uploaded</h3>
+
+          <p>Upload your first document using the button above.</p>
         </div>
       )}
 
-      <div className={styles.grid}>
-        {documents.map((doc) => (
-          <DocumentCard key={doc.id} document={doc} onDelete={removeDocument} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function DocumentCard({
-  document,
-  onDelete,
-}: {
-  document: DocumentItem;
-  onDelete: (id: number) => void;
-}) {
-  return (
-    <div className={styles.card}>
-      <div className={styles.icon}>📄</div>
-
-      <div className={styles.content}>
-        <h3>Document #{document.id}</h3>
-
-        <p>{document.file}</p>
-
-        <button
-          className={styles.deleteButton}
-          type="button"
-          onClick={() => onDelete(document.id)}
-        >
-          Delete
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function DocumentUpload({ onUploaded }: { onUploaded: () => void }) {
-  return (
-    <div className={styles.uploadCard}>
-      <button
-        type="button"
-        className={styles.uploadButton}
-        onClick={onUploaded}
-      >
-        + Upload Document
-      </button>
+      {!loading && !error && documents.length > 0 && (
+        <div className={styles.grid}>
+          {documents.map((document) => (
+            <DocumentCard
+              key={document.id}
+              document={document}
+              onDelete={removeDocument}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
