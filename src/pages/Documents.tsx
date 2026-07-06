@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
-import { deleteDocument, getDocuments } from '../services/documents';
-import type { DocumentItem } from '../types/document';
+
+import {
+  deleteDocument as removeDocumentService,
+  getDocuments,
+  type DocumentItem,
+} from '../services/document';
+
 import styles from '../styles/Documents.module.css';
 
 export default function Documents() {
@@ -20,7 +25,7 @@ export default function Documents() {
 
   async function removeDocument(id: number) {
     try {
-      await deleteDocument(id);
+      await removeDocumentService(id);
       await refreshDocuments();
     } catch {
       setError("Couldn't delete document.");
