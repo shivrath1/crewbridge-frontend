@@ -7,6 +7,7 @@ import Stub from './Stub';
 import Layout from './Layout';
 import ProtectedRoute from './ProtectedRoute';
 import Profile from './Profile';
+import Documents from './Documents';
 
 // Wraps a page in the protected layout shell.
 function Page({ children }: { children: React.ReactNode }) {
@@ -45,7 +46,7 @@ function App() {
             path="/documents"
             element={
               <Page>
-                <Stub title="Documents" />
+                <Documents />
               </Page>
             }
           />

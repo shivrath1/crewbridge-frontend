@@ -1,0 +1,58 @@
+.container {
+  max-width: 900px;
+
+  margin: auto;
+
+  padding: 40px;
+}
+
+.container h1 {
+  color: #2563eb;
+
+  margin-bottom: 25px;
+}
+
+.uploadCard {
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 25px;
+
+  margin-bottom: 30px;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+button {
+  background: #2563eb;
+
+  color: white;
+
+  border: none;
+
+  padding: 12px 20px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+select,
+input {
+  width: 100%;
+
+  padding: 12px;
+
+  margin-top: 10px;
+
+  margin-bottom: 20px;
+
+  border-radius: 8px;
+
+  border: 1px solid #ddd;
+}
