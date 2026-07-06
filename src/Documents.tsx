@@ -7,50 +7,89 @@ export default function Documents() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  async function loadDocuments() {
+  async function refreshDocuments() {
     try {
-      setLoading(true);
-      setError('');
-
       const data = await getDocuments();
       setDocuments(data);
+      setError('');
     } catch {
       setError("Couldn't load documents.");
-    } finally {
-      setLoading(false);
     }
   }
 
   async function removeDocument(id: number) {
     try {
       await deleteDocument(id);
-      await loadDocuments();
+      await refreshDocuments();
     } catch {
       setError("Couldn't delete document.");
     }
   }
 
   useEffect(() => {
-    void (async () => {
-      await loadDocuments();
-    })();
+    let ignore = false;
+
+    async function fetchDocuments() {
+      try {
+        const data = await getDocuments();
+
+        if (!ignore) {
+          setDocuments(data);
+          setError('');
+        }
+      } catch {
+        if (!ignore) {
+          setError("Couldn't load documents.");
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    }
+
+    void fetchDocuments();
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return (
     <div className={styles.container}>
-      <h1>My Documents</h1>
+      <div className={styles.header}>
+        <h1>📄 My Documents</h1>
+        <p>Manage all of your uploaded documents.</p>
+      </div>
 
-      <DocumentUpload onUploaded={loadDocuments} />
+      <div className={styles.uploadSection}>
+        <DocumentUpload onUploaded={refreshDocuments} />
+      </div>
 
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className={styles.message}>
+          <p>Loading documents...</p>
+        </div>
+      )}
 
-      {error && <p>{error}</p>}
+      {!loading && error && (
+        <div className={styles.error}>
+          <p>{error}</p>
+        </div>
+      )}
 
-      {!loading && documents.length === 0 && <p>No documents uploaded yet.</p>}
+      {!loading && !error && documents.length === 0 && (
+        <div className={styles.empty}>
+          <h3>No documents uploaded yet</h3>
+          <p>Upload your first document to begin.</p>
+        </div>
+      )}
 
-      {documents.map((doc) => (
-        <DocumentCard key={doc.id} document={doc} onDelete={removeDocument} />
-      ))}
+      <div className={styles.grid}>
+        {documents.map((doc) => (
+          <DocumentCard key={doc.id} document={doc} onDelete={removeDocument} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -64,20 +103,34 @@ function DocumentCard({
 }) {
   return (
     <div className={styles.card}>
-      <div>{`Document ${document.id}`}</div>
+      <div className={styles.icon}>📄</div>
 
-      <button type="button" onClick={() => onDelete(document.id)}>
-        Delete
-      </button>
+      <div className={styles.content}>
+        <h3>Document #{document.id}</h3>
+
+        <p>{document.file}</p>
+
+        <button
+          className={styles.deleteButton}
+          type="button"
+          onClick={() => onDelete(document.id)}
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 }
 
 function DocumentUpload({ onUploaded }: { onUploaded: () => void }) {
   return (
-    <div style={{ marginBottom: '1rem' }}>
-      <button type="button" onClick={onUploaded}>
-        Upload Document
+    <div className={styles.uploadCard}>
+      <button
+        type="button"
+        className={styles.uploadButton}
+        onClick={onUploaded}
+      >
+        + Upload Document
       </button>
     </div>
   );
