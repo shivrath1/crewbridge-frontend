@@ -5,6 +5,7 @@ import RegisterPage from '@/pages/RegisterPage';
 import Profile from '@/pages/Profile';
 import Placeholder from '@/pages/Placeholder';
 import RoleDashboard from './pages/RoleDashboard';
+import MyCV from './pages/jobseeker/MyCV';
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
       { path: '/profile', element: <Profile /> },
 
       // Job seeker
-      { path: '/my-cv', element: <Placeholder title="My CV" /> },
+      { path: '/my-cv', element: <MyCV /> },
       {
         path: '/interview',
         element: <Placeholder title="Screening Interview" />,
