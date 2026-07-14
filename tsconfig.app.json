@@ -4,7 +4,7 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
-    "types": ["vite/client"],
+    "types": ["vite/client", "vitest/globals"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -22,11 +22,8 @@
     "noFallthroughCasesInSwitch": true,
     "paths": { "@/*": ["./src/*"] }
   },
-  "include": ["src"],
+  "include": ["src", "vitest.setup.ts"],
   "exclude": [
-    "src/**/*.test.tsx",
-    "src/**/*.test.ts",
-    "vitest.setup.ts",
     "src/components/ui"
   ]
 }
