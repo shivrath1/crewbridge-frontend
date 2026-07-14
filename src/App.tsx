@@ -1,13 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import Stub from './pages/Stub';
-import Layout from './components/Layout';
-import ProtectedRoute from './components/ProtectedRoute';
-import Profile from './pages/Profile';
-import Documents from './pages/Documents';
+import { AuthProvider } from './AuthContext';
+import Login from './Login';
+import Register from './Register';
+import Dashboard from './Dashboard';
+import Stub from './Stub';
+import Layout from './Layout';
+import ProtectedRoute from './ProtectedRoute';
+import Profile from './Profile';
 
 // Wraps a page in the protected layout shell.
 function Page({ children }: { children: React.ReactNode }) {
@@ -46,7 +45,7 @@ function App() {
             path="/documents"
             element={
               <Page>
-                <Documents />
+                <Stub title="Documents" />
               </Page>
             }
           />
