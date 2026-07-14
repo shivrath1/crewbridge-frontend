@@ -5,7 +5,7 @@ import {
   useEffect,
   type ReactNode,
 } from 'react';
-import api from './api';
+import api from '@/lib/api';
 
 type User = {
   id: number;

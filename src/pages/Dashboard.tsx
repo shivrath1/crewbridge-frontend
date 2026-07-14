@@ -1,7 +1,7 @@
-import { useAuth } from './AuthContext';
-import { Button } from './components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from './components/ui/card';
-import { Badge } from './components/ui/badge';
+import { useAuth } from '@/context/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 const LANDING_BY_ROLE: Record<string, string> = {
   WORKER: 'Find and apply for jobs, and manage your profile and documents.',
