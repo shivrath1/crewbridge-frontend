@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useAuth } from '@/context/AuthContext';
 
 const ROLES = [
   { value: 'WORKER', label: 'Job Seeker' },

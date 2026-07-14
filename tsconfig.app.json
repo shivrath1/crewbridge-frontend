@@ -19,8 +19,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": { "@/*": ["./src/*"] }
   },
   "include": ["src"],
-  "exclude": ["src/**/*.test.tsx", "src/**/*.test.ts", "vitest.setup.ts", "src/components/ui"]
+  "exclude": [
+    "src/**/*.test.tsx",
+    "src/**/*.test.ts",
+    "vitest.setup.ts",
+    "src/components/ui"
+  ]
 }

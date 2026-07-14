@@ -1,6 +1,6 @@
 import { useState, useEffect, type FormEvent } from 'react';
-import api from './api';
-import { useAuth } from './AuthContext';
+import api from '@/lib/api';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Profile() {
   const { user } = useAuth();
