@@ -3,7 +3,6 @@ import { AppShell } from '@/components/layout/AppShell';
 import LandingPage from '@/pages/LandingPage';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
-import Profile from '@/pages/Profile';
 import Placeholder from '@/pages/Placeholder';
 import RoleDashboard from '@/pages/RoleDashboard';
 import MyCV from '@/pages/jobseeker/MyCV';
@@ -12,6 +11,7 @@ import ScreeningInterview from '@/pages/jobseeker/ScreeningInterview';
 import BrowseJobs from '@/pages/jobseeker/BrowseJobs'
 import MyApplications from './pages/jobseeker/MyApplications';
 import MyPlacements from './pages/jobseeker/MyPlacements';
+import RoleProfile from './pages/RoleProfile';
 
 export const router = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
     element: <AppShell />,
     children: [
       { path: '/dashboard', element: <RoleDashboard /> },
-      { path: '/profile', element: <Profile /> },
+      { path: '/profile', element: <RoleProfile /> },
 
       // Job seeker
       { path: '/my-cv', element: <MyCV /> },
