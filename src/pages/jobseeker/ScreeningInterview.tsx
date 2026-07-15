@@ -305,11 +305,13 @@ export default function ScreeningInterview() {
             <Clock className="size-7 text-slate-400" />
           </div>
           <h1 className="mb-2 text-xl font-bold text-slate-800">
-            Interview not completed
+            Interview didn&apos;t pass this time
           </h1>
+
           <p className="leading-relaxed text-slate-600">
-            The session ended before all questions were answered. That&apos;s
-            okay — it happens. Your progress has been saved.
+            This attempt didn&apos;t meet the threshold to enter the candidate
+            pool. That&apos;s okay — you can prepare and try again. Your progress
+            has been saved.
           </p>
           <div className="mt-6 space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-5 text-left">
             <div className="flex justify-between text-sm">
