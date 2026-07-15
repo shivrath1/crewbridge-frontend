@@ -41,14 +41,28 @@ describe('Documents', () => {
   it('shows an empty state with no documents', async () => {
     setup({});
     render(<Documents />);
-    expect(await screen.findByText(/no documents uploaded yet/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/no documents uploaded yet/i)
+    ).toBeInTheDocument();
   });
 
   it('hides the CV from the documents table', async () => {
     setup({
       docs: [
-        { id: 1, doc_type: 'CV', file: 'https://x/cv.pdf', status: 'PENDING', uploaded_at: '2026-07-14T00:00:00Z' },
-        { id: 2, doc_type: 'VISA', file: 'https://x/visa.pdf', status: 'VERIFIED', uploaded_at: '2026-07-14T00:00:00Z' },
+        {
+          id: 1,
+          doc_type: 'CV',
+          file: 'https://x/cv.pdf',
+          status: 'PENDING',
+          uploaded_at: '2026-07-14T00:00:00Z',
+        },
+        {
+          id: 2,
+          doc_type: 'VISA',
+          file: 'https://x/visa.pdf',
+          status: 'VERIFIED',
+          uploaded_at: '2026-07-14T00:00:00Z',
+        },
       ],
     });
     render(<Documents />);
@@ -58,13 +72,23 @@ describe('Documents', () => {
 
   it('shows eligibility details when eligible', async () => {
     setup({
-      docs: [{ id: 2, doc_type: 'VISA', file: 'https://x/visa.pdf', status: 'VERIFIED', uploaded_at: '2026-07-14T00:00:00Z' }],
+      docs: [
+        {
+          id: 2,
+          doc_type: 'VISA',
+          file: 'https://x/visa.pdf',
+          status: 'VERIFIED',
+          uploaded_at: '2026-07-14T00:00:00Z',
+        },
+      ],
       eligibility: 'ELIGIBLE',
       expiry: '2027-05-04',
       maxHours: 25,
     });
     render(<Documents />);
-    expect(await screen.findByText(/eligible to work in nz/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/eligible to work in nz/i)
+    ).toBeInTheDocument();
     expect(screen.getByText(/25 hrs \/ week/i)).toBeInTheDocument();
   });
 
@@ -72,19 +96,31 @@ describe('Documents', () => {
     setup({});
     render(<Documents />);
     await screen.findByText(/no documents uploaded yet/i);
-    expect(screen.getByRole('button', { name: /check my eligibility/i })).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: /check my eligibility/i })
+    ).toBeDisabled();
   });
 
   it('shows a review message when the check returns 202', async () => {
     setup({
-      docs: [{ id: 2, doc_type: 'VISA', file: 'https://x/visa.pdf', status: 'PENDING', uploaded_at: '2026-07-14T00:00:00Z' }],
+      docs: [
+        {
+          id: 2,
+          doc_type: 'VISA',
+          file: 'https://x/visa.pdf',
+          status: 'PENDING',
+          uploaded_at: '2026-07-14T00:00:00Z',
+        },
+      ],
     });
     mockPost.mockResolvedValue({ status: 202, data: {} });
     render(<Documents />);
-    const btn = await screen.findByRole('button', { name: /check my eligibility/i });
+    const btn = await screen.findByRole('button', {
+      name: /check my eligibility/i,
+    });
     await userEvent.click(btn);
     await waitFor(() =>
-      expect(screen.getByText(/sent for human review/i)).toBeInTheDocument(),
+      expect(screen.getByText(/sent for human review/i)).toBeInTheDocument()
     );
   });
 });

@@ -1,8 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  CheckCircle2, Circle, AlertTriangle, Bot, Award, Star, DollarSign,
-  Briefcase, ChevronRight, CheckCheck, Loader2,
+  CheckCircle2,
+  Circle,
+  AlertTriangle,
+  Bot,
+  Award,
+  Star,
+  DollarSign,
+  Briefcase,
+  ChevronRight,
+  CheckCheck,
+  Loader2,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -33,7 +42,13 @@ interface DashboardData {
 }
 
 function OnboardingStep({
-  step, status, title, subtitle, ctaLabel, onCTA, last,
+  step,
+  status,
+  title,
+  subtitle,
+  ctaLabel,
+  onCTA,
+  last,
 }: {
   step: number;
   status: StepStatus;
@@ -53,7 +68,7 @@ function OnboardingStep({
               ? 'border-emerald-200 bg-emerald-50'
               : status === 'active'
                 ? 'border-emerald-300 bg-emerald-50'
-                : 'border-slate-200 bg-slate-50',
+                : 'border-slate-200 bg-slate-50'
           )}
         >
           {status === 'done' ? (
@@ -65,7 +80,12 @@ function OnboardingStep({
           )}
         </div>
         {!last && (
-          <div className={cn('mt-1 h-10 w-0.5', status === 'done' ? 'bg-emerald-200' : 'bg-slate-200')} />
+          <div
+            className={cn(
+              'mt-1 h-10 w-0.5',
+              status === 'done' ? 'bg-emerald-200' : 'bg-slate-200'
+            )}
+          />
         )}
       </div>
       <div className="flex-1 pb-6">
@@ -78,12 +98,17 @@ function OnboardingStep({
                   ? 'text-slate-900'
                   : status === 'done'
                     ? 'text-slate-600'
-                    : 'text-slate-400',
+                    : 'text-slate-400'
               )}
             >
               {step}. {title}
             </p>
-            <p className={cn('mt-0.5 text-sm', status === 'active' ? 'text-slate-600' : 'text-slate-400')}>
+            <p
+              className={cn(
+                'mt-0.5 text-sm',
+                status === 'active' ? 'text-slate-600' : 'text-slate-400'
+              )}
+            >
               {subtitle}
             </p>
           </div>
@@ -112,7 +137,11 @@ export default function JobseekerDashboard() {
     async function load() {
       // A 404 is a valid state ("not done yet"), not an error — so we catch
       // each call at the source and return null rather than throwing.
-      const get = (url: string) => api.get(url).then((r) => r.data).catch(() => null);
+      const get = (url: string) =>
+        api
+          .get(url)
+          .then((r) => r.data)
+          .catch(() => null);
 
       const [cv, profile, interview, jobs] = await Promise.all([
         get('/cv/'),
@@ -160,8 +189,11 @@ export default function JobseekerDashboard() {
     );
   }
 
-  const interviewDone = data.interviewStatus === 'COMPLETED';
-  const allDone = data.cvUploaded && data.eligible && interviewDone;
+  const interviewSubmitted =
+    data.interviewStatus === 'COMPLETED' ||
+    data.interviewStatus === 'PENDING_SCORING';
+
+  const allDone = data.cvUploaded && data.eligible && interviewSubmitted;
   const firstName = user?.first_name || user?.email?.split('@')[0] || '';
 
   const cvStatus: StepStatus = data.cvUploaded ? 'done' : 'active';
@@ -170,7 +202,7 @@ export default function JobseekerDashboard() {
     : data.cvUploaded
       ? 'active'
       : 'pending';
-  const interviewStatus: StepStatus = interviewDone
+  const interviewStatus: StepStatus = interviewSubmitted
     ? 'done'
     : data.eligible
       ? 'active'
@@ -181,7 +213,12 @@ export default function JobseekerDashboard() {
       <div className="rounded-xl bg-[#0f172a] px-7 py-6 text-white">
         <p className="mb-1 text-sm text-slate-400">Welcome back</p>
         <h1 className="text-2xl font-bold">Kia ora, {firstName} 👋</h1>
-        <p className={cn('mt-2 text-sm', allDone ? 'text-emerald-400' : 'text-slate-300')}>
+        <p
+          className={cn(
+            'mt-2 text-sm',
+            allDone ? 'text-emerald-400' : 'text-slate-300'
+          )}
+        >
           {allDone
             ? "You're in the candidate pool — employers can now shortlist you for shifts."
             : 'Complete the steps below to get into the candidate pool.'}
@@ -193,7 +230,9 @@ export default function JobseekerDashboard() {
           <Card>
             <CardContent className="p-6">
               <div className="mb-6 flex items-center justify-between">
-                <h2 className="font-semibold text-slate-800">Getting started</h2>
+                <h2 className="font-semibold text-slate-800">
+                  Getting started
+                </h2>
                 {allDone ? (
                   <div className="flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
                     <CheckCheck className="size-3" /> All done
@@ -234,9 +273,11 @@ export default function JobseekerDashboard() {
                 status={interviewStatus}
                 title="Complete your screening interview"
                 subtitle={
-                  interviewDone
+                  data.interviewStatus === 'COMPLETED'
                     ? 'Interview complete — scored by AI'
-                    : '5 questions, about 10 minutes, timed'
+                    : data.interviewStatus === 'PENDING_SCORING'
+                      ? 'Interview submitted — scoring in progress'
+                      : '5 questions, about 10 minutes, timed'
                 }
                 ctaLabel="Start interview"
                 onCTA={() => navigate('/interview')}
@@ -245,8 +286,8 @@ export default function JobseekerDashboard() {
 
               {!allDone && (
                 <p className="mt-1 border-t border-slate-100 pt-2 text-xs text-slate-400">
-                  You won&apos;t appear on any employer&apos;s shortlist until all three steps
-                  are complete.
+                  You won&apos;t appear on any employer&apos;s shortlist until
+                  all three steps are complete.
                 </p>
               )}
             </CardContent>
@@ -259,16 +300,24 @@ export default function JobseekerDashboard() {
               <CardContent className="p-5">
                 <div className="mb-4 flex items-center gap-2">
                   <Bot className="size-4 text-emerald-500" />
-                  <p className="text-sm font-semibold text-slate-700">AI Screening Score</p>
+                  <p className="text-sm font-semibold text-slate-700">
+                    AI Screening Score
+                  </p>
                 </div>
                 <div className="mb-4 text-center">
-                  <p className="text-5xl font-extrabold text-slate-900">{data.overallScore}</p>
-                  <p className="mt-1 text-sm text-slate-500">Overall rating / 10</p>
+                  <p className="text-5xl font-extrabold text-slate-900">
+                    {data.overallScore}
+                  </p>
+                  <p className="mt-1 text-sm text-slate-500">
+                    Overall rating / 10
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-slate-500">CV score</span>
-                    <span className="font-semibold text-slate-800">{data.cvScore ?? '—'} / 10</span>
+                    <span className="font-semibold text-slate-800">
+                      {data.cvScore ?? '—'} / 10
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-slate-500">Interview score</span>
@@ -290,7 +339,9 @@ export default function JobseekerDashboard() {
                 <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-slate-100">
                   <Award className="size-6 text-slate-300" />
                 </div>
-                <p className="text-sm font-medium text-slate-600">Your rating</p>
+                <p className="text-sm font-medium text-slate-600">
+                  Your rating
+                </p>
                 <p className="mt-1 text-xs text-slate-400">
                   Complete all three steps to unlock your score
                 </p>
@@ -304,7 +355,10 @@ export default function JobseekerDashboard() {
           ].map((cs) => {
             const Icon = cs.icon;
             return (
-              <Card key={cs.label} className="relative overflow-hidden opacity-60">
+              <Card
+                key={cs.label}
+                className="relative overflow-hidden opacity-60"
+              >
                 <CardContent className="p-4">
                   <span className="absolute right-2 top-2 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-400">
                     Soon
@@ -314,7 +368,9 @@ export default function JobseekerDashboard() {
                       <Icon className="size-4 text-slate-300" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-slate-400">{cs.label}</p>
+                      <p className="text-sm font-medium text-slate-400">
+                        {cs.label}
+                      </p>
                       <p className="text-xs text-slate-300">Coming soon</p>
                     </div>
                   </div>
@@ -329,7 +385,11 @@ export default function JobseekerDashboard() {
         <CardContent className="p-6">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-semibold text-slate-800">Open jobs</h2>
-            <Button variant="ghost" onClick={() => navigate('/jobs')} className="text-emerald-600">
+            <Button
+              variant="ghost"
+              onClick={() => navigate('/jobs')}
+              className="text-emerald-600"
+            >
               Browse all <ChevronRight className="size-4" />
             </Button>
           </div>
@@ -350,7 +410,9 @@ export default function JobseekerDashboard() {
                       <Briefcase className="size-4 text-slate-500" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-slate-800">{job.role_title}</p>
+                      <p className="text-sm font-medium text-slate-800">
+                        {job.role_title}
+                      </p>
                       <p className="text-xs text-slate-500">
                         {job.venue_name} ·{' '}
                         {new Date(job.start_datetime).toLocaleString('en-NZ', {
@@ -365,10 +427,18 @@ export default function JobseekerDashboard() {
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-slate-800">${job.pay_rate}/hr</p>
-                      <p className="text-xs text-slate-400">{job.duration_hours} hrs</p>
+                      <p className="text-sm font-semibold text-slate-800">
+                        ${job.pay_rate}/hr
+                      </p>
+                      <p className="text-xs text-slate-400">
+                        {job.duration_hours} hrs
+                      </p>
                     </div>
-                    <Button variant="outline" onClick={() => navigate('/jobs')} className="px-3 py-1.5 text-xs">
+                    <Button
+                      variant="outline"
+                      onClick={() => navigate('/jobs')}
+                      className="px-3 py-1.5 text-xs"
+                    >
                       View
                     </Button>
                   </div>

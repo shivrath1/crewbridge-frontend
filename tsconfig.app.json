@@ -23,7 +23,5 @@
     "paths": { "@/*": ["./src/*"] }
   },
   "include": ["src", "vitest.setup.ts"],
-  "exclude": [
-    "src/components/ui"
-  ]
+  "exclude": ["src/components/ui"]
 }
