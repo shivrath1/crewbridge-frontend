@@ -9,6 +9,7 @@ import RoleDashboard from '@/pages/RoleDashboard';
 import MyCV from '@/pages/jobseeker/MyCV';
 import Documents from '@/pages/jobseeker/Documents';
 import ScreeningInterview from '@/pages/jobseeker/ScreeningInterview';
+import BrowseJobs from '@/pages/jobseeker/BrowseJobs'
 
 export const router = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
@@ -24,7 +25,7 @@ export const router = createBrowserRouter([
       { path: '/my-cv', element: <MyCV /> },
       { path: '/interview', element: <ScreeningInterview /> },
       { path: '/documents', element: <Documents /> },
-      { path: '/jobs', element: <Placeholder title="Browse Jobs" /> },
+      { path: '/jobs', element: <BrowseJobs /> },
       { path: '/applications', element: <Placeholder title="My Applications" /> },
       { path: '/placements', element: <Placeholder title="Placements" /> },
 
