@@ -10,6 +10,8 @@ import MyCV from '@/pages/jobseeker/MyCV';
 import Documents from '@/pages/jobseeker/Documents';
 import ScreeningInterview from '@/pages/jobseeker/ScreeningInterview';
 import BrowseJobs from '@/pages/jobseeker/BrowseJobs'
+import MyApplications from './pages/jobseeker/MyApplications';
+import MyPlacements from './pages/jobseeker/MyPlacements';
 
 export const router = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
@@ -26,8 +28,8 @@ export const router = createBrowserRouter([
       { path: '/interview', element: <ScreeningInterview /> },
       { path: '/documents', element: <Documents /> },
       { path: '/jobs', element: <BrowseJobs /> },
-      { path: '/applications', element: <Placeholder title="My Applications" /> },
-      { path: '/placements', element: <Placeholder title="Placements" /> },
+      { path: '/applications', element: <MyApplications /> },
+      { path: '/placements', element: <MyPlacements /> },
 
       // Employer
       { path: '/post-job', element: <Placeholder title="Post a Job" /> },
