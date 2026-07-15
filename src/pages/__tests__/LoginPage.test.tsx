@@ -9,14 +9,16 @@ function renderPage() {
       <MemoryRouter>
         <LoginPage />
       </MemoryRouter>
-    </AuthProvider>,
+    </AuthProvider>
   );
 }
 
 describe('LoginPage', () => {
   it('renders the sign-in form', () => {
     renderPage();
-    expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /sign in/i })
+    ).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/you@example.com/i)).toBeInTheDocument();
   });
 
@@ -24,7 +26,7 @@ describe('LoginPage', () => {
     renderPage();
     expect(screen.getByRole('link', { name: /create one/i })).toHaveAttribute(
       'href',
-      '/register',
+      '/register'
     );
   });
 });

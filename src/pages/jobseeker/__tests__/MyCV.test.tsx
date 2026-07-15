@@ -28,7 +28,9 @@ function mockProfile({
   mockGet.mockImplementation((url: string) => {
     if (url === '/cv/') return Promise.resolve({ data: cv });
     if (url === '/profile/me/') {
-      return Promise.resolve({ data: { cv_score: cvScore, cv_analysis: analysis } });
+      return Promise.resolve({
+        data: { cv_score: cvScore, cv_analysis: analysis },
+      });
     }
     return Promise.resolve({ data: null });
   });
@@ -43,21 +45,33 @@ describe('MyCV', () => {
   it('shows the upload dropzone when no CV exists', async () => {
     mockProfile({});
     render(<MyCV />);
-    expect(await screen.findByText(/choose a file to upload/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/choose a file to upload/i)
+    ).toBeInTheDocument();
   });
 
   it('shows the existing CV and a replace action', async () => {
     mockProfile({
-      cv: { id: 1, file: 'https://x.blob.core.windows.net/d/cv.pdf', uploaded_at: '2026-07-14T00:00:00Z' },
+      cv: {
+        id: 1,
+        file: 'https://x.blob.core.windows.net/d/cv.pdf',
+        uploaded_at: '2026-07-14T00:00:00Z',
+      },
     });
     render(<MyCV />);
     expect(await screen.findByText('cv.pdf')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /replace/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /replace/i })
+    ).toBeInTheDocument();
   });
 
   it('restores a previous analysis on load', async () => {
     mockProfile({
-      cv: { id: 1, file: 'https://x/cv.pdf', uploaded_at: '2026-07-14T00:00:00Z' },
+      cv: {
+        id: 1,
+        file: 'https://x/cv.pdf',
+        uploaded_at: '2026-07-14T00:00:00Z',
+      },
       cvScore: 8,
       analysis: ANALYSIS,
     });
@@ -65,7 +79,9 @@ describe('MyCV', () => {
     expect(await screen.findByText('AI CV Analysis')).toBeInTheDocument();
     expect(screen.getByText('Hospitality')).toBeInTheDocument();
     expect(screen.getByText('Bartender')).toBeInTheDocument();
-    expect(screen.getByText(/strong hospitality background/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/strong hospitality background/i)
+    ).toBeInTheDocument();
   });
 
   it('runs the analysis automatically after an upload', async () => {
@@ -73,7 +89,11 @@ describe('MyCV', () => {
     mockPost.mockImplementation((url: string) => {
       if (url === '/cv/') {
         return Promise.resolve({
-          data: { id: 1, file: 'https://x/new.pdf', uploaded_at: '2026-07-14T00:00:00Z' },
+          data: {
+            id: 1,
+            file: 'https://x/new.pdf',
+            uploaded_at: '2026-07-14T00:00:00Z',
+          },
         });
       }
       if (url === '/cv/analyse/') {
@@ -86,8 +106,12 @@ describe('MyCV', () => {
     const input = await screen.findByText(/choose a file to upload/i);
     expect(input).toBeInTheDocument();
 
-    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-    const file = new File(['cv content'], 'cv.pdf', { type: 'application/pdf' });
+    const fileInput = document.querySelector(
+      'input[type="file"]'
+    ) as HTMLInputElement;
+    const file = new File(['cv content'], 'cv.pdf', {
+      type: 'application/pdf',
+    });
     await userEvent.upload(fileInput, file);
 
     await waitFor(() => {
@@ -98,7 +122,11 @@ describe('MyCV', () => {
 
   it('shows a human-review message when the CV cannot be read', async () => {
     mockProfile({
-      cv: { id: 1, file: 'https://x/cv.pdf', uploaded_at: '2026-07-14T00:00:00Z' },
+      cv: {
+        id: 1,
+        file: 'https://x/cv.pdf',
+        uploaded_at: '2026-07-14T00:00:00Z',
+      },
     });
     mockPost.mockResolvedValue({ status: 202, data: {} });
 
@@ -107,7 +135,7 @@ describe('MyCV', () => {
     await userEvent.click(btn);
 
     expect(
-      await screen.findByText(/couldn't read your cv automatically/i),
+      await screen.findByText(/couldn't read your cv automatically/i)
     ).toBeInTheDocument();
   });
 });

@@ -62,8 +62,15 @@ export default function Documents() {
   const [message, setMessage] = useState('');
 
   async function loadAll() {
-    const get = (url: string) => api.get(url).then((r) => r.data).catch(() => null);
-    const [docsData, profile] = await Promise.all([get('/documents/'), get('/profile/me/')]);
+    const get = (url: string) =>
+      api
+        .get(url)
+        .then((r) => r.data)
+        .catch(() => null);
+    const [docsData, profile] = await Promise.all([
+      get('/documents/'),
+      get('/profile/me/'),
+    ]);
     setDocs((docsData ?? []).filter((d: Doc) => d.doc_type !== 'CV'));
     if (profile) {
       setEligibility(profile.eligibility_status ?? 'PENDING');
@@ -113,7 +120,7 @@ export default function Documents() {
       const res = await api.post('/eligibility/check/');
       if (res.status === 202) {
         setMessage(
-          'We could not assess your documents automatically. They have been sent for human review.',
+          'We could not assess your documents automatically. They have been sent for human review.'
         );
       }
       await loadAll();
@@ -140,7 +147,9 @@ export default function Documents() {
 
       <Card>
         <CardContent className="p-6">
-          <h2 className="mb-4 font-semibold text-slate-800">Upload a document</h2>
+          <h2 className="mb-4 font-semibold text-slate-800">
+            Upload a document
+          </h2>
           <div className="flex flex-wrap items-center gap-3">
             <select
               value={docType}
@@ -185,7 +194,9 @@ export default function Documents() {
 
       <Card>
         <CardContent className="p-6">
-          <h2 className="mb-4 font-semibold text-slate-800">Uploaded documents</h2>
+          <h2 className="mb-4 font-semibold text-slate-800">
+            Uploaded documents
+          </h2>
           {docs.length === 0 ? (
             <p className="py-8 text-center text-sm text-slate-400">
               No documents uploaded yet.
@@ -203,18 +214,24 @@ export default function Documents() {
               </thead>
               <tbody>
                 {docs.map((d) => (
-                  <tr key={d.id} className="border-b border-slate-50 last:border-0">
+                  <tr
+                    key={d.id}
+                    className="border-b border-slate-50 last:border-0"
+                  >
                     <td className="py-3">
                       <span className="rounded-md bg-slate-100 px-2 py-1 text-xs text-slate-700">
                         {d.doc_type}
                       </span>
                     </td>
-                    <td className="py-3 text-slate-700">{fileNameFrom(d.file)}</td>
+                    <td className="py-3 text-slate-700">
+                      {fileNameFrom(d.file)}
+                    </td>
                     <td className="py-3">
                       <span
                         className={cn(
                           'rounded-full px-2.5 py-1 text-xs font-medium',
-                          STATUS_STYLES[d.status] ?? 'bg-slate-100 text-slate-600',
+                          STATUS_STYLES[d.status] ??
+                            'bg-slate-100 text-slate-600'
                         )}
                       >
                         {d.status.charAt(0) + d.status.slice(1).toLowerCase()}
@@ -250,10 +267,12 @@ export default function Documents() {
             <span
               className={cn(
                 'rounded-full px-3 py-1 text-xs font-medium',
-                ELIGIBILITY_STYLES[eligibility] ?? 'bg-slate-100 text-slate-600',
+                ELIGIBILITY_STYLES[eligibility] ?? 'bg-slate-100 text-slate-600'
               )}
             >
-              {eligibility === 'ELIGIBLE' ? 'Eligible' : eligibility.replace('_', ' ')}
+              {eligibility === 'ELIGIBLE'
+                ? 'Eligible'
+                : eligibility.replace('_', ' ')}
             </span>
           </div>
 
@@ -281,9 +300,9 @@ export default function Documents() {
           <div className="mb-4 flex gap-3 rounded-lg bg-blue-50 p-4">
             <Info className="size-4 flex-shrink-0 text-blue-500" />
             <p className="text-sm text-blue-800">
-              An AI reads your documents and extracts eligibility details automatically.
-              Anything unclear is flagged for a human to review before your status is
-              confirmed.
+              An AI reads your documents and extracts eligibility details
+              automatically. Anything unclear is flagged for a human to review
+              before your status is confirmed.
             </p>
           </div>
 

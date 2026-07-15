@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-  Upload, FileText, Bot, Loader2, AlertTriangle,
-} from 'lucide-react';
+import { Upload, FileText, Bot, Loader2, AlertTriangle } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import api from '@/lib/api';
@@ -43,8 +41,15 @@ export default function MyCV() {
 
   useEffect(() => {
     async function load() {
-      const get = (url: string) => api.get(url).then((r) => r.data).catch(() => null);
-      const [cvData, profile] = await Promise.all([get('/cv/'), get('/profile/me/')]);
+      const get = (url: string) =>
+        api
+          .get(url)
+          .then((r) => r.data)
+          .catch(() => null);
+      const [cvData, profile] = await Promise.all([
+        get('/cv/'),
+        get('/profile/me/'),
+      ]);
       setCv(cvData);
       // if (profile?.cv_score != null) setCvScore(profile.cv_score);
       // Restore the full breakdown if it has already been analysed.
@@ -110,8 +115,8 @@ export default function MyCV() {
     <div className="mx-auto max-w-6xl space-y-6">
       <div>
         <p className="text-sm text-slate-500">
-          Your CV is read by AI to generate your screening interview questions. Upload a
-          clear, up-to-date version.
+          Your CV is read by AI to generate your screening interview questions.
+          Upload a clear, up-to-date version.
         </p>
       </div>
 
@@ -141,7 +146,8 @@ export default function MyCV() {
                     {fileNameFrom(cv.file)}
                   </p>
                   <p className="text-xs text-slate-500">
-                    Uploaded {new Date(cv.uploaded_at).toLocaleDateString('en-NZ')}
+                    Uploaded{' '}
+                    {new Date(cv.uploaded_at).toLocaleDateString('en-NZ')}
                   </p>
                 </div>
               </div>
@@ -150,7 +156,11 @@ export default function MyCV() {
                 onClick={() => fileInput.current?.click()}
                 disabled={uploading}
               >
-                {uploading ? <Loader2 className="size-4 animate-spin" /> : 'Replace'}
+                {uploading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  'Replace'
+                )}
               </Button>
             </div>
           ) : (
@@ -181,7 +191,8 @@ export default function MyCV() {
             >
               {analysing ? (
                 <>
-                  <Loader2 className="mr-2 size-4 animate-spin" /> Analysing your CV…
+                  <Loader2 className="mr-2 size-4 animate-spin" /> Analysing
+                  your CV…
                 </>
               ) : (
                 <>
@@ -202,8 +213,8 @@ export default function MyCV() {
                 We couldn&apos;t read your CV automatically
               </p>
               <p className="mt-1 text-sm text-amber-800">
-                It has been sent to our team for a human review. You can also try
-                uploading a clearer version — a text-based PDF works best.
+                It has been sent to our team for a human review. You can also
+                try uploading a clearer version — a text-based PDF works best.
               </p>
             </div>
           </CardContent>
@@ -278,7 +289,9 @@ export default function MyCV() {
 
             {analysis.reasoning && (
               <div className="rounded-lg bg-slate-50 p-4">
-                <p className="mb-1 text-xs font-medium text-slate-500">AI reasoning</p>
+                <p className="mb-1 text-xs font-medium text-slate-500">
+                  AI reasoning
+                </p>
                 <p className="text-sm leading-relaxed text-slate-700">
                   {analysis.reasoning}
                 </p>

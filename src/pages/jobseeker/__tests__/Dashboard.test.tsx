@@ -7,7 +7,13 @@ import api from '@/lib/api';
 vi.mock('@/lib/api', () => ({ default: { get: vi.fn() } }));
 vi.mock('@/context/AuthContext', () => ({
   useAuth: () => ({
-    user: { id: 1, email: 'w@test.com', role: 'WORKER', first_name: 'Aroha', last_name: 'N' },
+    user: {
+      id: 1,
+      email: 'w@test.com',
+      role: 'WORKER',
+      first_name: 'Aroha',
+      last_name: 'N',
+    },
   }),
 }));
 
@@ -50,7 +56,7 @@ function renderDashboard() {
   return render(
     <MemoryRouter>
       <JobseekerDashboard />
-    </MemoryRouter>,
+    </MemoryRouter>
   );
 }
 
@@ -60,14 +66,20 @@ describe('JobseekerDashboard', () => {
   it('shows "not shortlistable" when no steps are complete', async () => {
     mockEndpoints({});
     renderDashboard();
-    expect(await screen.findByText(/not shortlistable yet/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /upload cv/i })).toBeInTheDocument();
+    expect(
+      await screen.findByText(/not shortlistable yet/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /upload cv/i })
+    ).toBeInTheDocument();
   });
 
   it('does not show a rating before the interview is complete', async () => {
     mockEndpoints({ cv: true, eligible: true });
     renderDashboard();
-    expect(await screen.findByText(/complete all three steps/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/complete all three steps/i)
+    ).toBeInTheDocument();
   });
 
   it('shows the overall rating once all steps are complete', async () => {
@@ -85,13 +97,17 @@ describe('JobseekerDashboard', () => {
     renderDashboard();
     expect(await screen.findByText(/all done/i)).toBeInTheDocument();
     expect(screen.getByText(/solid answers/i)).toBeInTheDocument();
-    expect(screen.getByText(/you're in the candidate pool/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/you're in the candidate pool/i)
+    ).toBeInTheDocument();
   });
 
   it('shows an empty state when there are no open jobs', async () => {
     mockEndpoints({});
     renderDashboard();
-    expect(await screen.findByText(/no open jobs right now/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/no open jobs right now/i)
+    ).toBeInTheDocument();
   });
 
   it('lists open jobs when they exist', async () => {
@@ -114,6 +130,8 @@ describe('JobseekerDashboard', () => {
   it('shows an error state if the profile fails to load', async () => {
     mockGet.mockImplementation(() => notFound());
     renderDashboard();
-    expect(await screen.findByText(/couldn't load your dashboard/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/couldn't load your dashboard/i)
+    ).toBeInTheDocument();
   });
 });
