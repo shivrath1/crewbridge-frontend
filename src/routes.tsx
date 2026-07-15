@@ -6,6 +6,7 @@ import Profile from '@/pages/Profile';
 import Placeholder from '@/pages/Placeholder';
 import RoleDashboard from './pages/RoleDashboard';
 import MyCV from './pages/jobseeker/MyCV';
+import Documents from './pages/jobseeker/Documents';
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
@@ -22,7 +23,7 @@ export const router = createBrowserRouter([
         path: '/interview',
         element: <Placeholder title="Screening Interview" />,
       },
-      { path: '/documents', element: <Placeholder title="Documents" /> },
+      { path: '/documents', element: <Documents /> },
       { path: '/jobs', element: <Placeholder title="Browse Jobs" /> },
       {
         path: '/applications',
