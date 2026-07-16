@@ -15,7 +15,10 @@ export default function Notifications() {
           {unreadCount > 0 ? `${unreadCount} unread` : 'All caught up'}
         </p>
         {unreadCount > 0 && (
-          <button onClick={markAllRead} className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700">
+          <button
+            onClick={markAllRead}
+            className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700"
+          >
             <CheckCheck className="size-4" /> Mark all read
           </button>
         )}
@@ -40,15 +43,27 @@ export default function Notifications() {
                 }}
                 className={cn(
                   'flex w-full items-start gap-3 border-b border-slate-50 px-5 py-4 text-left transition-colors last:border-0 hover:bg-slate-50',
-                  !n.is_read && 'bg-emerald-50/40',
+                  !n.is_read && 'bg-emerald-50/40'
                 )}
               >
-                <div className={cn('mt-1.5 size-2 flex-shrink-0 rounded-full', n.is_read ? 'bg-transparent' : 'bg-emerald-500')} />
+                <div
+                  className={cn(
+                    'mt-1.5 size-2 flex-shrink-0 rounded-full',
+                    n.is_read ? 'bg-transparent' : 'bg-emerald-500'
+                  )}
+                />
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-slate-800">{n.title}</p>
+                  <p className="text-sm font-medium text-slate-800">
+                    {n.title}
+                  </p>
                   <p className="mt-0.5 text-sm text-slate-600">{n.message}</p>
                   <p className="mt-1 text-xs text-slate-400">
-                    {new Date(n.created_at).toLocaleString('en-NZ', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}
+                    {new Date(n.created_at).toLocaleString('en-NZ', {
+                      day: 'numeric',
+                      month: 'short',
+                      hour: 'numeric',
+                      minute: '2-digit',
+                    })}
                   </p>
                 </div>
               </button>

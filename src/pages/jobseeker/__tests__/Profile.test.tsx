@@ -48,14 +48,16 @@ describe('JobSeekerProfile', () => {
     const firstName = await screen.findByDisplayValue('Aroha');
     await userEvent.clear(firstName);
     await userEvent.type(firstName, 'Kiri');
-    await userEvent.click(screen.getByRole('button', { name: /save changes/i }));
+    await userEvent.click(
+      screen.getByRole('button', { name: /save changes/i })
+    );
 
     await waitFor(() => {
       expect(mockPatch).toHaveBeenCalledWith(
         '/profile/me/',
         expect.objectContaining({
           user: expect.objectContaining({ first_name: 'Kiri' }),
-        }),
+        })
       );
     });
   });

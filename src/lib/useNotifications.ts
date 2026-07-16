@@ -16,12 +16,15 @@ export function useNotifications() {
   const [items, setItems] = useState<Notification[]>([]);
 
   const refresh = useCallback(async () => {
-    const data = await api.get('/notifications/').then((r) => r.data).catch(() => null);
+    const data = await api
+      .get('/notifications/')
+      .then((r) => r.data)
+      .catch(() => null);
     if (data) setItems(data);
   }, []);
 
   useEffect(() => {
-     // eslint-disable-next-line react-hooks/set-state-in-effect
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void refresh();
     const id = setInterval(() => void refresh(), POLL_MS);
     return () => clearInterval(id);
@@ -30,7 +33,9 @@ export function useNotifications() {
   const unreadCount = items.filter((n) => !n.is_read).length;
 
   const markRead = useCallback(async (id: number) => {
-    setItems((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
+    setItems((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, is_read: true } : n))
+    );
     await api.patch(`/notifications/${id}/read/`).catch(() => {});
   }, []);
 

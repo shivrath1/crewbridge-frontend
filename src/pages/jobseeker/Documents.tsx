@@ -84,7 +84,6 @@ export default function Documents() {
     (async () => {
       await loadAll();
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleUpload(file: File) {

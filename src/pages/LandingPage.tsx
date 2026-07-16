@@ -1,5 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { Zap, Bot, Shield, Users, GraduationCap, Star, ArrowRight } from 'lucide-react';
+import {
+  Zap,
+  Bot,
+  Shield,
+  Users,
+  GraduationCap,
+  Star,
+  ArrowRight,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const FEATURES = [
@@ -77,9 +85,9 @@ export default function LandingPage() {
               Find Work-Ready Staff Faster
             </h1>
             <p className="mb-8 text-lg leading-relaxed text-slate-300">
-              Built for New Zealand hospitality. Every candidate you see has been
-              AI-screened, verified as legally able to work, and checked for scheduling
-              conflicts before you ever look at their name.
+              Built for New Zealand hospitality. Every candidate you see has
+              been AI-screened, verified as legally able to work, and checked
+              for scheduling conflicts before you ever look at their name.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
@@ -99,31 +107,54 @@ export default function LandingPage() {
 
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
             <div className="mb-5 flex items-center justify-between">
-              <p className="text-sm text-slate-400">Candidate shortlist · Bartender shift</p>
+              <p className="text-sm text-slate-400">
+                Candidate shortlist · Bartender shift
+              </p>
               <span className="rounded-full bg-emerald-500/20 px-2.5 py-1 text-xs font-medium text-emerald-400">
                 AI ranked
               </span>
             </div>
             <div className="space-y-3">
               {[
-                { name: 'A. Ngata', fit: '94%', score: '8.6', reason: '5 yrs bar experience, no conflicts' },
-                { name: 'T. Wirihana', fit: '87%', score: '7.9', reason: 'Solid FOH background, available' },
-                { name: 'S. Pereira', fit: '79%', score: '7.4', reason: 'Good CV, slightly less bar exp' },
+                {
+                  name: 'A. Ngata',
+                  fit: '94%',
+                  score: '8.6',
+                  reason: '5 yrs bar experience, no conflicts',
+                },
+                {
+                  name: 'T. Wirihana',
+                  fit: '87%',
+                  score: '7.9',
+                  reason: 'Solid FOH background, available',
+                },
+                {
+                  name: 'S. Pereira',
+                  fit: '79%',
+                  score: '7.4',
+                  reason: 'Good CV, slightly less bar exp',
+                },
               ].map((c, i) => (
                 <div
                   key={c.name}
                   className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3"
                 >
-                  <span className="w-5 text-lg font-bold text-slate-500">#{i + 1}</span>
+                  <span className="w-5 text-lg font-bold text-slate-500">
+                    #{i + 1}
+                  </span>
                   <div className="flex size-9 flex-shrink-0 items-center justify-center rounded-full bg-slate-700 text-xs font-semibold text-slate-300">
                     {c.name.slice(0, 2)}
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium text-white">{c.name}</p>
-                    <p className="truncate text-xs text-slate-400">{c.reason}</p>
+                    <p className="truncate text-xs text-slate-400">
+                      {c.reason}
+                    </p>
                   </div>
                   <div className="flex-shrink-0 text-right">
-                    <p className="text-sm font-bold text-emerald-400">{c.fit}</p>
+                    <p className="text-sm font-bold text-emerald-400">
+                      {c.fit}
+                    </p>
                     <p className="text-xs text-slate-500">{c.score}/10</p>
                   </div>
                 </div>
@@ -141,8 +172,8 @@ export default function LandingPage() {
           How Crewbridge works
         </h2>
         <p className="mx-auto mb-14 max-w-xl text-center text-slate-500">
-          Matching verified, screened candidates with shifts that suit them. No guesswork,
-          no unvetted CVs.
+          Matching verified, screened candidates with shifts that suit them. No
+          guesswork, no unvetted CVs.
         </p>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {FEATURES.map((f) => {
@@ -153,7 +184,9 @@ export default function LandingPage() {
                 className={`rounded-xl border border-slate-100 p-6 ${!f.live ? 'bg-slate-50 opacity-60' : ''}`}
               >
                 <div className="mb-4 flex items-start justify-between">
-                  <div className={`flex size-10 items-center justify-center rounded-lg ${f.iconBg}`}>
+                  <div
+                    className={`flex size-10 items-center justify-center rounded-lg ${f.iconBg}`}
+                  >
                     <Icon className="size-5" />
                   </div>
                   {!f.live && (
@@ -163,7 +196,9 @@ export default function LandingPage() {
                   )}
                 </div>
                 <h3 className="mb-2 font-semibold text-[#0f172a]">{f.title}</h3>
-                <p className="text-sm leading-relaxed text-slate-500">{f.desc}</p>
+                <p className="text-sm leading-relaxed text-slate-500">
+                  {f.desc}
+                </p>
               </div>
             );
           })}
@@ -176,9 +211,13 @@ export default function LandingPage() {
             <div className="flex size-6 items-center justify-center rounded bg-emerald-500">
               <Zap className="size-3 text-white" />
             </div>
-            <span className="text-sm font-semibold text-slate-700">Crewbridge</span>
+            <span className="text-sm font-semibold text-slate-700">
+              Crewbridge
+            </span>
           </div>
-          <p className="text-xs text-slate-400">New Zealand hospitality workforce platform</p>
+          <p className="text-xs text-slate-400">
+            New Zealand hospitality workforce platform
+          </p>
         </div>
       </footer>
     </div>

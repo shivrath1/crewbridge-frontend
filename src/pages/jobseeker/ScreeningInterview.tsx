@@ -307,8 +307,8 @@ export default function ScreeningInterview() {
 
           <p className="leading-relaxed text-slate-600">
             This attempt didn&apos;t meet the threshold to enter the candidate
-            pool. That&apos;s okay — you can prepare and try again. Your progress
-            has been saved.
+            pool. That&apos;s okay — you can prepare and try again. Your
+            progress has been saved.
           </p>
           <div className="mt-6 space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-5 text-left">
             <div className="flex justify-between text-sm">
