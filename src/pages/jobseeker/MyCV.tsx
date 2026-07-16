@@ -66,6 +66,13 @@ export default function MyCV() {
     setMessage('');
     setNeedsReview(false);
     setAnalysis(null);
+    const allowed = ['.pdf', '.doc', '.docx', '.txt'];
+    const name = file.name.toLowerCase();
+    if (!allowed.some((ext) => name.endsWith(ext))) {
+      setMessage('Please upload a PDF, DOCX, or TXT file.');
+      return;
+    }
+    setUploading(true);
     try {
       const form = new FormData();
       form.append('file', file);

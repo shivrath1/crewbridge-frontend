@@ -11,8 +11,22 @@ const mockPatch = api.patch as unknown as Mock;
 const mockPost = api.post as unknown as Mock;
 
 const DATA = [
-  { id: 1, title: 'A', message: 'm', link: '/interview', is_read: false, created_at: '2026-07-15T00:00:00Z' },
-  { id: 2, title: 'B', message: 'm', link: '', is_read: true, created_at: '2026-07-15T00:00:00Z' },
+  {
+    id: 1,
+    title: 'A',
+    message: 'm',
+    link: '/interview',
+    is_read: false,
+    created_at: '2026-07-15T00:00:00Z',
+  },
+  {
+    id: 2,
+    title: 'B',
+    message: 'm',
+    link: '',
+    is_read: true,
+    created_at: '2026-07-15T00:00:00Z',
+  },
 ];
 
 describe('useNotifications', () => {

@@ -14,7 +14,14 @@ describe('EmployerProfile', () => {
   it('shows venue and contact details', async () => {
     mockGet.mockResolvedValue({
       data: {
-        user: { email: 'e@test.com', first_name: 'Sam', last_name: 'Lee', phone: '', country_code: '+64', address: '' },
+        user: {
+          email: 'e@test.com',
+          first_name: 'Sam',
+          last_name: 'Lee',
+          phone: '',
+          country_code: '+64',
+          address: '',
+        },
         venue_name: 'The Occidental',
         venue_type: 'Bar',
         location: 'Auckland CBD',
@@ -22,7 +29,9 @@ describe('EmployerProfile', () => {
       },
     });
     render(<EmployerProfile />);
-    expect(await screen.findByDisplayValue('The Occidental')).toBeInTheDocument();
+    expect(
+      await screen.findByDisplayValue('The Occidental')
+    ).toBeInTheDocument();
     expect(screen.getByDisplayValue('Auckland CBD')).toBeInTheDocument();
     expect(screen.getByDisplayValue('e@test.com')).toBeDisabled();
   });

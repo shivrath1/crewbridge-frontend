@@ -8,7 +8,7 @@ import RoleDashboard from '@/pages/RoleDashboard';
 import MyCV from '@/pages/jobseeker/MyCV';
 import Documents from '@/pages/jobseeker/Documents';
 import ScreeningInterview from '@/pages/jobseeker/ScreeningInterview';
-import BrowseJobs from '@/pages/jobseeker/BrowseJobs'
+import BrowseJobs from '@/pages/jobseeker/BrowseJobs';
 import MyApplications from './pages/jobseeker/MyApplications';
 import MyPlacements from './pages/jobseeker/MyPlacements';
 import RoleProfile from './pages/RoleProfile';
@@ -42,12 +42,18 @@ export const router = createBrowserRouter([
 
       // Admin
       { path: '/accounts', element: <Placeholder title="Accounts" /> },
-      { path: '/review-queue', element: <Placeholder title="AI Review Queue" /> },
+      {
+        path: '/review-queue',
+        element: <Placeholder title="AI Review Queue" />,
+      },
 
       { path: '/notifications', element: <Notifications /> },
 
       // Coming soon
-      { path: '/cs/:feature', element: <Placeholder title="Coming soon" comingSoon /> },
+      {
+        path: '/cs/:feature',
+        element: <Placeholder title="Coming soon" comingSoon />,
+      },
     ],
   },
   // Unknown routes → landing (public), not dashboard.

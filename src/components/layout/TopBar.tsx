@@ -26,9 +26,7 @@ export function TopBar({
 
   return (
     <header className="sticky top-0 z-20 flex h-14 items-center gap-4 border-b border-border bg-white/90 px-6 backdrop-blur-sm">
-      <h2 className="flex-1 text-base font-semibold text-slate-800">
-        {title}
-      </h2>
+      <h2 className="flex-1 text-base font-semibold text-slate-800">{title}</h2>
 
       <button
         onClick={onBellClick}
