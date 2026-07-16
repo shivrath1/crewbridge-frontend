@@ -39,6 +39,7 @@ interface DashboardData {
   overallScore: number | null;
   reasoning: string;
   jobs: Job[];
+  retryAfter: string | null;
 }
 
 function OnboardingStep({
@@ -49,6 +50,7 @@ function OnboardingStep({
   ctaLabel,
   onCTA,
   last,
+  attention
 }: {
   step: number;
   status: StepStatus;
@@ -57,28 +59,33 @@ function OnboardingStep({
   ctaLabel: string;
   onCTA: () => void;
   last?: boolean;
+  attention?: boolean;
 }) {
   return (
     <div className="flex gap-4">
       <div className="flex flex-col items-center">
         <div
-          className={cn(
-            'flex size-9 flex-shrink-0 items-center justify-center rounded-full border-2',
-            status === 'done'
-              ? 'border-emerald-200 bg-emerald-50'
-              : status === 'active'
-                ? 'border-emerald-300 bg-emerald-50'
-                : 'border-slate-200 bg-slate-50'
-          )}
-        >
-          {status === 'done' ? (
-            <CheckCircle2 className="size-5 text-emerald-500" />
-          ) : status === 'active' ? (
-            <div className="size-5 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
-          ) : (
-            <Circle className="size-5 text-slate-300" />
-          )}
-        </div>
+            className={cn(
+              'flex size-9 flex-shrink-0 items-center justify-center rounded-full border-2',
+              attention
+                ? 'border-amber-300 bg-amber-50'
+                : status === 'done'
+                  ? 'border-emerald-200 bg-emerald-50'
+                  : status === 'active'
+                    ? 'border-emerald-300 bg-emerald-50'
+                    : 'border-slate-200 bg-slate-50',
+            )}
+          >
+            {status === 'done' ? (
+              <CheckCircle2 className="size-5 text-emerald-500" />
+            ) : attention ? (
+              <AlertTriangle className="size-5 text-amber-500" />
+            ) : status === 'active' ? (
+              <div className="size-5 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
+            ) : (
+              <Circle className="size-5 text-slate-300" />
+            )}
+          </div>
         {!last && (
           <div
             className={cn(
@@ -115,7 +122,10 @@ function OnboardingStep({
           {status === 'active' && (
             <Button
               onClick={onCTA}
-              className="ml-4 flex-shrink-0 bg-emerald-600 text-white hover:bg-emerald-700"
+              className={cn(
+                'ml-4 flex-shrink-0 text-white',
+                attention ? 'bg-amber-500 hover:bg-amber-600' : 'bg-emerald-600 hover:bg-emerald-700',
+              )}
             >
               {ctaLabel}
             </Button>
@@ -165,6 +175,7 @@ export default function JobseekerDashboard() {
         overallScore: interview?.overall_score ?? null,
         reasoning: interview?.scoring_reasoning ?? '',
         jobs: jobs ?? [],
+        retryAfter: interview?.retry_allowed_after ?? null,
       });
       setLoading(false);
     }
@@ -189,22 +200,23 @@ export default function JobseekerDashboard() {
     );
   }
 
+  const interviewFailed = data.interviewStatus === 'FAILED';
   const interviewSubmitted =
-    data.interviewStatus === 'COMPLETED' ||
-    data.interviewStatus === 'PENDING_SCORING';
-
+    data.interviewStatus === 'COMPLETED' || data.interviewStatus === 'PENDING_SCORING';
   const allDone = data.cvUploaded && data.eligible && interviewSubmitted;
+
+  const interviewStepStatus: StepStatus = interviewSubmitted
+    ? 'done'
+    : (data.eligible || interviewFailed)
+      ? 'active'
+      : 'pending';
+
   const firstName = user?.first_name || user?.email?.split('@')[0] || '';
 
   const cvStatus: StepStatus = data.cvUploaded ? 'done' : 'active';
   const docsStatus: StepStatus = data.eligible
     ? 'done'
     : data.cvUploaded
-      ? 'active'
-      : 'pending';
-  const interviewStatus: StepStatus = interviewSubmitted
-    ? 'done'
-    : data.eligible
       ? 'active'
       : 'pending';
 
@@ -270,16 +282,19 @@ export default function JobseekerDashboard() {
               />
               <OnboardingStep
                 step={3}
-                status={interviewStatus}
+                status={interviewStepStatus}
+                attention={interviewFailed}
                 title="Complete your screening interview"
                 subtitle={
-                  data.interviewStatus === 'COMPLETED'
-                    ? 'Interview complete — scored by AI'
+                  interviewFailed
+                    ? data.retryAfter
+                      ? `This attempt didn't pass — you can retake it from ${new Date(data.retryAfter).toLocaleDateString('en-NZ', { day: 'numeric', month: 'short', year: 'numeric' })}`
+                      : "This attempt didn't pass — you can retake it soon"
                     : data.interviewStatus === 'PENDING_SCORING'
                       ? 'Interview submitted — scoring in progress'
                       : '5 questions, about 10 minutes, timed'
                 }
-                ctaLabel="Start interview"
+                ctaLabel={interviewFailed ? 'Retake interview' : 'Start interview'}
                 onCTA={() => navigate('/interview')}
                 last
               />

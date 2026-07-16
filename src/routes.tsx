@@ -16,6 +16,9 @@ import PostJob from './pages/employer/PostJob';
 import MyJobs from './pages/employer/MyJobs';
 import CandidateShortlist from './pages/employer/CandidateShortlist';
 import Notifications from './pages/Notifications';
+import Accounts from './pages/admin/Accounts';
+import ReviewQueue from './pages/admin/ReviewQueue';
+import AllJobs from './pages/admin/AllJobs';
 
 export const router = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
@@ -41,11 +44,9 @@ export const router = createBrowserRouter([
       { path: '/jobs/:jobId/shortlist', element: <CandidateShortlist /> },
 
       // Admin
-      { path: '/accounts', element: <Placeholder title="Accounts" /> },
-      {
-        path: '/review-queue',
-        element: <Placeholder title="AI Review Queue" />,
-      },
+      { path: '/accounts', element: <Accounts /> },
+      { path: '/review-queue', element: <ReviewQueue /> },
+      { path: '/all-jobs', element: <AllJobs /> },
 
       { path: '/notifications', element: <Notifications /> },
 
