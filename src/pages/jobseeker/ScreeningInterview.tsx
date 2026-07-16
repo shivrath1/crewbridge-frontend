@@ -108,7 +108,6 @@ export default function ScreeningInterview() {
         void scoreInterview();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ---- Submit the current answer --------------------------------------------
@@ -136,7 +135,6 @@ export default function ScreeningInterview() {
         submittingRef.current = false;
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [question, answer, loadQuestion]
   );
 
@@ -167,7 +165,6 @@ export default function ScreeningInterview() {
       void scoreInterview();
     }, 15000);
     return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screen]);
 
   async function startInterview() {
