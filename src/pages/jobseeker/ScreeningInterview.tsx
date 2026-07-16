@@ -148,14 +148,18 @@ export default function ScreeningInterview() {
 
   // ---- Score the interview --------------------------------------------------
   async function scoreInterview() {
-    const res = await api
-      .post('/interview/score/')
-      .catch((e) => e.response ?? null);
+    const res = await api.post('/interview/score/').catch((e) => e.response ?? null);
     if (res?.status === 200) {
-      setSession(res.data);
-      setScreen('result');
+      const s = res.data;
+      setSession(s);
+      // Respect the actual outcome — a below-threshold score comes back FAILED.
+      if (s.status === 'FAILED') {
+        setScreen('failed');
+      } else {
+        setScreen('result');
+      }
     }
-    // 202 = scoring not ready; the calm "scoring" screen stays up.
+    // 202 = scoring not ready; the "scoring" screen stays up and retries.
   }
 
   // Retry scoring while it's pending (e.g. transient AI unavailability).
