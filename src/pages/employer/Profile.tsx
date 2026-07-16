@@ -50,6 +50,14 @@ export default function EmployerProfile() {
 
   async function save() {
     if (!data) return;
+    if (!data.user.first_name.trim() || !data.user.last_name.trim()) {
+      setMsg({ text: 'First and last name are required.', ok: false });
+      return;
+    }
+    if (!data.venue_name.trim()) {
+      setMsg({ text: 'Venue name is required.', ok: false });
+      return;
+    }
     setSaving(true);
     setMsg(null);
     try {

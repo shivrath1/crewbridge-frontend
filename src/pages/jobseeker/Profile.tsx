@@ -43,6 +43,10 @@ export default function JobSeekerProfile() {
 
   async function save() {
     if (!data) return;
+    if (!data.user.first_name.trim() || !data.user.last_name.trim()) {
+      setMsg({ text: 'First and last name are required.', ok: false });
+      return;
+    }
     setSaving(true);
     setMsg(null);
     try {

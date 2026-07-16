@@ -1,6 +1,6 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, Plus } from 'lucide-react';
+import { Building2, Loader2, Plus } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import api from '@/lib/api';
@@ -23,6 +23,16 @@ export default function PostJob() {
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
     return now.toISOString().slice(0, 16);
   });
+
+  const [profileReady, setProfileReady] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    async function check() {
+      const p = await api.get('/profile/me/').then((r) => r.data).catch(() => null);
+      setProfileReady(Boolean(p?.venue_name?.trim()));
+    }
+    check();
+  }, []);
 
   function set(key: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -62,7 +72,32 @@ export default function PostJob() {
 
   const input =
     'w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30';
-
+    if (profileReady === null) {
+      return (
+        <div className="flex items-center justify-center py-24 text-slate-500">
+          <Loader2 className="mr-2 size-5 animate-spin" /> Loading…
+        </div>
+      );
+    }
+  
+    if (!profileReady) {
+      return (
+        <div className="mx-auto max-w-xl">
+          <Card>
+            <CardContent className="flex flex-col items-center gap-3 py-16 text-center">
+              <Building2 className="size-8 text-slate-300" />
+              <h3 className="font-semibold text-slate-800">You're almost ready to post jobs</h3>
+              <p className="max-w-sm text-sm text-slate-500">
+                Add your venue name and details so candidates know who they&apos;re applying to.
+              </p>
+              <Button onClick={() => navigate('/profile')} className="bg-emerald-600 text-white hover:bg-emerald-700">
+                Go to profile
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      );
+    }
   return (
     <div className="mx-auto max-w-2xl">
       <Card>
