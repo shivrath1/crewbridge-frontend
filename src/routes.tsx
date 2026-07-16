@@ -14,6 +14,7 @@ import MyPlacements from './pages/jobseeker/MyPlacements';
 import RoleProfile from './pages/RoleProfile';
 import PostJob from './pages/employer/PostJob';
 import MyJobs from './pages/employer/MyJobs';
+import CandidateShortlist from './pages/employer/CandidateShortlist';
 
 export const router = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
@@ -36,7 +37,7 @@ export const router = createBrowserRouter([
       // Employer
       { path: '/post-job', element: <PostJob /> },
       { path: '/my-jobs', element: <MyJobs /> },
-      { path: '/jobs/:jobId/shortlist', element: <Placeholder title="Candidate Shortlist" /> },
+      { path: '/jobs/:jobId/shortlist', element: <CandidateShortlist /> },
 
       // Admin
       { path: '/accounts', element: <Placeholder title="Accounts" /> },
