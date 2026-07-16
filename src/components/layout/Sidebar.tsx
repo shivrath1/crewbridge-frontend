@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { NAV_ITEMS, ROLE_LABELS, type Role } from '@/lib/navConfig';
 import { useAuth } from '@/context/AuthContext';
 
-export function Sidebar() {
+export function Sidebar({ unreadCount }: { unreadCount: number }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -96,8 +96,14 @@ export function Sidebar() {
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-400 transition-colors hover:bg-white/[0.04] hover:text-white"
         >
           <Bell className="size-4" />
-          <span className="text-sm">Notifications</span>
+          <span className="flex-1 text-left text-sm">Notifications</span>
+          {unreadCount > 0 && (
+            <span className="flex size-5 items-center justify-center rounded-full bg-emerald-500 text-[10px] font-semibold text-white">
+              {unreadCount > 9 ? '9+' : unreadCount}
+            </span>
+          )}
         </button>
+
         <button
           onClick={handleLogout}
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-400 transition-colors hover:bg-white/[0.04] hover:text-white"

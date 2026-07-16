@@ -15,6 +15,7 @@ import RoleProfile from './pages/RoleProfile';
 import PostJob from './pages/employer/PostJob';
 import MyJobs from './pages/employer/MyJobs';
 import CandidateShortlist from './pages/employer/CandidateShortlist';
+import Notifications from './pages/Notifications';
 
 export const router = createBrowserRouter([
   { path: '/', element: <LandingPage /> },
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
       { path: '/accounts', element: <Placeholder title="Accounts" /> },
       { path: '/review-queue', element: <Placeholder title="AI Review Queue" /> },
 
-      { path: '/notifications', element: <Placeholder title="Notifications" /> },
+      { path: '/notifications', element: <Notifications /> },
 
       // Coming soon
       { path: '/cs/:feature', element: <Placeholder title="Coming soon" comingSoon /> },
