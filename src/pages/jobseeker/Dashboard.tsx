@@ -292,7 +292,7 @@ export default function JobseekerDashboard() {
                       : "This attempt didn't pass — you can retake it soon"
                     : data.interviewStatus === 'PENDING_SCORING'
                       ? 'Interview submitted — scoring in progress'
-                      : '5 questions, about 10 minutes, timed'
+                      : '2 questions, about 10 minutes, timed'
                 }
                 ctaLabel={interviewFailed ? 'Retake interview' : 'Start interview'}
                 onCTA={() => navigate('/interview')}

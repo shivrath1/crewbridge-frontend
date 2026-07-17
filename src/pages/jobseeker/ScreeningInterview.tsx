@@ -217,7 +217,7 @@ export default function ScreeningInterview() {
               {[
                 {
                   icon: MessageSquare,
-                  text: '5 questions, one at a time. You cannot go back.',
+                  text: '2 questions, one at a time. You cannot go back.',
                 },
                 {
                   icon: Timer,
@@ -250,7 +250,7 @@ export default function ScreeningInterview() {
             <div className="mt-6 rounded-lg border border-amber-100 bg-amber-50 px-4 py-3">
               <p className="text-sm text-amber-700">
                 <strong>Once you start, there is no pausing.</strong> Make sure
-                you have 15\u201320 minutes and a stable internet connection
+                you have 15minutes and a stable internet connection
                 before beginning.
               </p>
             </div>
@@ -328,7 +328,7 @@ export default function ScreeningInterview() {
             <div className="flex justify-between text-sm">
               <span className="text-slate-500">Questions answered</span>
               <span className="font-semibold text-slate-800">
-                {session?.answered_count ?? 0} of 5
+                {session?.answered_count ?? 0} of 2
               </span>
             </div>
           </div>
