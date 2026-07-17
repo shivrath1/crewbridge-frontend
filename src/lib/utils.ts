@@ -10,3 +10,7 @@ export function formatTime(s: number): string {
   const sec = s % 60;
   return `${m}:${sec.toString().padStart(2, '0')}`;
 }
+
+export function jobRef(id: number): string {
+  return `#CB-${String(id).padStart(4, '0')}`;
+}

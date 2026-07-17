@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Briefcase, Users, MapPin, Plus, Loader2, Star, CreditCard, ClipboardList } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { cn, jobRef } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
 import api from '@/lib/api';
 
@@ -110,7 +110,10 @@ export default function EmployerDashboard() {
                 >
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium text-slate-800">{job.role_title}</p>
+                    <p className="text-sm font-medium text-slate-800">
+                        {job.role_title}
+                        <span className="ml-2 text-xs font-normal text-slate-400">{jobRef(job.id)}</span>
+                      </p>
                       <span className={cn(
                         'rounded-full px-2 py-0.5 text-xs font-medium',
                         job.status === 'OPEN' ? 'bg-emerald-50 text-emerald-700'

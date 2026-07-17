@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { cn, jobRef } from '@/lib/utils';
 import api from '@/lib/api';
 
 interface Job {
@@ -53,6 +53,7 @@ export default function AllJobs() {
           <table className="w-full">
             <thead className="bg-slate-50">
               <tr>
+                <th className="px-5 py-3 text-left text-xs font-medium text-slate-500">Job</th>
                 <th className="px-5 py-3 text-left text-xs font-medium text-slate-500">Role</th>
                 <th className="px-5 py-3 text-left text-xs font-medium text-slate-500">Venue</th>
                 <th className="px-5 py-3 text-left text-xs font-medium text-slate-500">Date</th>
@@ -63,6 +64,7 @@ export default function AllJobs() {
             <tbody>
               {jobs.map((j) => (
                 <tr key={j.id} className="border-t border-slate-50">
+                  <td className="px-5 py-3 text-sm font-mono text-slate-500">{jobRef(j.id)}</td>
                   <td className="px-5 py-3 text-sm font-medium text-slate-800">{j.role_title}</td>
                   <td className="px-5 py-3 text-sm text-slate-600">{j.venue_name}</td>
                   <td className="px-5 py-3 text-sm text-slate-500">

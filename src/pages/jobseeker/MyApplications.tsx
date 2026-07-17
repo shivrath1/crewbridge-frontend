@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ClipboardList, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { cn, jobRef } from '@/lib/utils';
 import api from '@/lib/api';
 
 interface Application {
@@ -99,6 +99,7 @@ export default function MyApplications() {
                   >
                     <td className="px-5 py-3 text-sm font-medium text-slate-800">
                       {app.job_title}
+                      <span className="ml-2 text-xs font-normal text-slate-400">{jobRef(app.id)}</span>
                     </td>
                     <td className="px-5 py-3 text-sm text-slate-600">
                       {app.venue_name}

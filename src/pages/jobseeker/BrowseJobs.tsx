@@ -10,6 +10,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import api from '@/lib/api';
+import { jobRef } from '@/lib/utils';
 
 interface Job {
   id: number;
@@ -140,8 +141,9 @@ export default function BrowseJobs() {
                       </div>
 
                       <div>
-                        <h3 className="font-semibold text-slate-800">
+                      <h3 className="font-semibold text-slate-800">
                           {job.role_title}
+                          <span className="ml-2 text-xs font-normal text-slate-400">{jobRef(job.id)}</span>
                         </h3>
 
                         <p className="mt-0.5 text-sm text-slate-500">

@@ -13,6 +13,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import api from '@/lib/api';
+import { jobRef } from '@/lib/utils';
 
 interface Candidate {
   application_id: number;
@@ -122,7 +123,10 @@ export default function CandidateShortlist() {
       </button>
 
       <div>
-        <h1 className="text-2xl font-bold text-slate-800">{data.role_title}</h1>
+      <h1 className="text-2xl font-bold text-slate-800">
+          {data.role_title}
+          <span className="ml-2 text-base font-normal text-slate-400">{jobRef(data.job_id)}</span>
+        </h1>
         <p className="mt-1 text-sm text-slate-500">
           {data.positions_remaining} of {data.positions_needed} position
           {data.positions_needed !== 1 ? 's' : ''} remaining

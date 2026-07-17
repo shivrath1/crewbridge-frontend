@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Briefcase, Users, Loader2, Plus, X } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { cn, jobRef } from '@/lib/utils';
 import api from '@/lib/api';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 
@@ -115,8 +115,9 @@ export default function MyJobs() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-semibold text-slate-800">
+                      <h3 className="font-semibold text-slate-800">
                           {job.role_title}
+                          <span className="ml-2 text-xs font-normal text-slate-400">{jobRef(job.id)}</span>
                         </h3>
                         <span
                           className={cn(
