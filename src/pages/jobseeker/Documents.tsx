@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Upload, Trash2, Loader2, Info, ShieldCheck } from 'lucide-react';
+import { Upload, Trash2, Loader2, Info, ShieldCheck, AlertTriangle } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -60,6 +60,7 @@ export default function Documents() {
   const [uploading, setUploading] = useState(false);
   const [checking, setChecking] = useState(false);
   const [message, setMessage] = useState('');
+  const [eligibilityNote, setEligibilityNote] = useState('');
 
   async function loadAll() {
     const get = (url: string) =>
@@ -74,6 +75,7 @@ export default function Documents() {
     setDocs((docsData ?? []).filter((d: Doc) => d.doc_type !== 'CV'));
     if (profile) {
       setEligibility(profile.eligibility_status ?? 'PENDING');
+      setEligibilityNote(profile.eligibility_note ?? '');
       setExpiry(profile.work_rights_expiry ?? null);
       setMaxHours(profile.max_weekly_hours ?? null);
     }
@@ -235,6 +237,18 @@ export default function Documents() {
                       >
                         {d.status.charAt(0) + d.status.slice(1).toLowerCase()}
                       </span>
+                      {eligibilityNote && eligibility !== 'ELIGIBLE' && (
+                        <div className="mb-4 flex gap-3 rounded-lg border border-amber-100 bg-amber-50 p-4">
+                          <AlertTriangle className="size-4 flex-shrink-0 text-amber-500" />
+                          <div>
+                            <p className="text-sm font-medium text-amber-900">Reviewer note</p>
+                            <p className="mt-1 text-sm text-amber-800">{eligibilityNote}</p>
+                            <p className="mt-1 text-xs text-amber-700">
+                              Re-upload the relevant document above, then run the eligibility check again.
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </td>
                     <td className="py-3 text-slate-500">
                       {new Date(d.uploaded_at).toLocaleDateString('en-NZ')}

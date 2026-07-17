@@ -18,6 +18,8 @@ export default function ReviewQueue() {
   const [flags, setFlags] = useState<Flag[]>([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<number | null>(null);
+  const [dialog, setDialog] = useState<{ id: number; action: 'APPROVED' | 'REJECTED' } | null>(null);
+  const [reason, setReason] = useState('');
 
   async function load() {
     const data = await api.get('/admin/review-queue/').then((r) => r.data).catch(() => []);
@@ -30,13 +32,17 @@ export default function ReviewQueue() {
     load();
   }, []);
 
-  async function decide(id: number, status: 'APPROVED' | 'REJECTED') {
+  async function submitDecision() {
+    if (!dialog) return;
+    const { id, action } = dialog;
     setBusy(id);
+    setDialog(null);
     try {
-      await api.patch(`/admin/review-queue/${id}/`, { status });
+      await api.patch(`/admin/review-queue/${id}/`, { status: action, note: reason });
       setFlags((prev) => prev.filter((f) => f.id !== id));
     } finally {
       setBusy(null);
+      setReason('');
     }
   }
 
@@ -88,8 +94,8 @@ export default function ReviewQueue() {
                     </p>
                   </div>
                   <div className="flex flex-shrink-0 gap-2">
-                    <Button
-                      onClick={() => decide(f.id, 'REJECTED')}
+                  <Button
+                      onClick={() => { setReason(''); setDialog({ id: f.id, action: 'REJECTED' }); }}
                       disabled={busy === f.id}
                       variant="outline"
                       className="border-red-200 text-red-600 hover:bg-red-50"
@@ -97,17 +103,52 @@ export default function ReviewQueue() {
                       <X className="mr-1 size-4" /> Reject
                     </Button>
                     <Button
-                      onClick={() => decide(f.id, 'APPROVED')}
+                      onClick={() => { setReason(''); setDialog({ id: f.id, action: 'APPROVED' }); }}
                       disabled={busy === f.id}
                       className="bg-emerald-600 text-white hover:bg-emerald-700"
                     >
-                      {busy === f.id ? <Loader2 className="size-4 animate-spin" /> : <><Check className="mr-1 size-4" /> Approve</>}
+                      <Check className="mr-1 size-4" /> Approve
                     </Button>
                   </div>
                 </div>
               </CardContent>
             </Card>
           ))}
+        </div>
+      )}
+      {dialog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setDialog(null)}>
+          <div className="absolute inset-0 bg-slate-900/40" />
+          <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-semibold text-slate-800">
+              {dialog.action === 'APPROVED' ? 'Approve eligibility' : 'Reject eligibility'}
+            </h3>
+            <p className="mt-1 text-sm text-slate-500">
+              This message is shown to the candidate.
+              {dialog.action === 'REJECTED' && ' Tell them what to fix.'}
+            </p>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={3}
+              placeholder={
+                dialog.action === 'APPROVED'
+                  ? 'Optional note…'
+                  : 'e.g. Your visa document is expired — please upload a current one.'
+              }
+              className="mt-3 w-full resize-none rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+            />
+            <div className="mt-4 flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setDialog(null)}>Cancel</Button>
+              <Button
+                onClick={submitDecision}
+                disabled={dialog.action === 'REJECTED' && !reason.trim()}
+                className={dialog.action === 'APPROVED' ? 'bg-emerald-600 text-white hover:bg-emerald-700' : 'bg-red-600 text-white hover:bg-red-700'}
+              >
+                {dialog.action === 'APPROVED' ? 'Approve' : 'Reject'}
+              </Button>
+            </div>
+          </div>
         </div>
       )}
     </div>
